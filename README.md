@@ -30,8 +30,6 @@ Examples include:
 - **Operational analysis and reporting services:** correlate metrics, traces, and logs to produce workload summaries, capacity reports, or diagnostic views.
 - **Custom observability consoles and operators:** provide organization-specific interfaces or manage the lifecycle of telemetry-driven applications and their configuration.
 
-The external [platform-billing-operator](https://github.com/rdwj/platform-billing-operator) is an illustrative example: it adds metering, billing, and FinOps workflows to OpenShift AI Models-as-a-Service through a Kubernetes operator and billing console. It demonstrates the type of application contribution welcome here; it is not bundled with this repository or a required dependency.
-
 Application contributions should include source code, dependency declarations, deployment configuration, and instructions for building, testing, running, and removing the application. Document any persistent state, external services, permissions, and actions that affect workloads or tenants.
 
 ## Observability data sources

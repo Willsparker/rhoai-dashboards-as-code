@@ -1,8 +1,8 @@
 # OpenShift AI Community Dashboards and Observability Applications
 
-A community-driven collection of custom dashboards as code and observability application code for Red Hat OpenShift AI (RHOAI). This repository brings together contributions from field teams, customers, and the wider community to answer operational questions specific to their AI workloads and organizations.
+A community-driven collection of custom dashboards as code for Red Hat OpenShift AI (RHOAI). This repository brings together contributions from field teams, customers, and the wider community to answer operational questions specific to their AI workloads and organizations.
 
-Keep dashboard definitions and application source code in Git, adapt them to your environment, and deploy them through the documented installation or GitOps workflow. Contributions can include Perses and Grafana dashboards, services, operators, and user interfaces that turn OpenShift AI telemetry and usage data into operational insights and workflows.
+Contributions include Perses and Grafana dashboards or entries in the [dashboard register](https://github.com/rh-aiservices-bu/rhoai-dashboards-as-code/tree/main/dashboards#dashboard-register) - an index of dashboards that live off-repository.
 
 **Full documentation:** https://rh-aiservices-bu.github.io/rhoai-dashboards-as-code/
 
@@ -17,31 +17,17 @@ Keep dashboard definitions and application source code in Git, adapt them to you
 
 ## What is a custom dashboard?
 
-A custom dashboard extends or reorganizes the views provided out of the box by OpenShift AI. It can expose additional runtime metrics, apply organization-specific filters and calculations, or bring signals from several domains into one view. It queries the underlying observability data rather than querying other dashboards.
+A custom dashboard extends or reorganizes the views provided out of the box by OpenShift AI, by querying underlying observability data.
 
 Examples of contributions we welcome:
 
 | Example | What it helps you understand |
 | --- | --- |
-| **Extended vLLM diagnostics** | Add metrics beyond the built-in Perses dashboard, such as request queuing, KV cache utilization, prefix cache behavior, and latency distributions, where exposed by the deployed vLLM version. Use these to investigate throughput or latency changes. |
-| **Usage attribution and showback** | Use available RHOAI Models-as-a-Service usage data, such as token consumption and request counts, with subscription-to-team mappings and organization-defined rates to estimate costs by team or cost center. Document attribution, pricing, and calculation assumptions; usage metrics alone are not a billing system. |
+| **Extended vLLM diagnostics** | Add metrics beyond the built-in Perses dashboard, to assist with investigating throughput or latency changes. |
+| **Usage attribution and showback** | Use available RHOAI Models-as-a-Service usage data, such as token consumption and request counts, with subscription-to-team mappings and organization-defined rates to estimate costs by team or cost center. |
 | **Organization-wide AI operations overview** | Combine vLLM performance, llm-d serving health, infrastructure and GPU health, and usage into a single view organized around the models, projects, or services an organization operates. |
-| **GPU capacity and efficiency** | Combine GPU utilization and memory metrics with serving demand and workload placement to identify idle capacity, resource pressure, and opportunities to adjust model deployment sizes. Requires the relevant GPU and cluster exporters. |
+| **GPU capacity and efficiency** | Combine GPU utilization and memory metrics with serving demand and workload placement to identify idle capacity, resource pressure, and opportunities to adjust model deployment sizes. |
 | **Inference service objectives** | Track latency targets, request success rates, and throughput by model or service. Where available, link to traces and logs to investigate periods when service targets are missed. |
-
-These are example use cases, not a list of dashboards already included in this repository. Available metrics, labels, and integrations depend on the deployed versions and configuration.
-
-## Custom observability applications
-
-This repository also welcomes application source code that builds on OpenShift AI observability and usage data. Applications can combine telemetry with business context, maintain state, expose APIs, provide custom user interfaces, or automate operational workflows beyond what a dashboard definition provides.
-
-Examples include:
-
-- **Metering, showback, and billing applications:** attribute usage to teams or tenants, apply pricing rules, and provide cost reports or budget workflows.
-- **Operational analysis and reporting services:** correlate metrics, traces, and logs to produce workload summaries, capacity reports, or diagnostic views.
-- **Custom observability consoles and operators:** provide organization-specific interfaces or manage the lifecycle of telemetry-driven applications and their configuration.
-
-Application contributions should include source code, dependency declarations, deployment configuration, and instructions for building, testing, running, and removing the application. Document any persistent state, external services, permissions, and actions that affect workloads or tenants.
 
 ## Observability data sources
 
@@ -62,6 +48,12 @@ Applications may also consume usage events or component APIs and combine them wi
 
 Dashboard contributions can target either tool. Equivalent versions for both are welcome but are not required. Document the tested dashboard tool version and any required plugins; the formats are not interchangeable.
 
+## Dashboard Register
+
+The [dashboard register](https://github.com/rh-aiservices-bu/rhoai-dashboards-as-code/tree/main/dashboards#dashboard-register) is an index of dashboards that live in their own repositories rather than in this tree. 
+
+Some dashboards ship as part of a larger application, where the dashboard and the exporter that feeds it are versioned together and would drift if copied here. This register points to those, so they can be found alongside the dashboards held directly in this repository.
+
 ## Contributing
 
 Submit a pull request containing the dashboard files or application source code and a short README with:
@@ -71,12 +63,15 @@ Submit a pull request containing the dashboard files or application source code 
 - Tested OpenShift AI, runtime, and applicable dashboard tool or application dependency versions.
 - Required data sources, metric names, labels, units, and any recording rules or additional exporters.
 - Import or deployment instructions, variables to configure, and known limitations.
-- For applications, build and test commands, architecture, required permissions, state storage, external integrations, and uninstall instructions.
 - Any attribution mappings or cost assumptions used for showback.
 
 Remove credentials, customer identifiers, internal endpoints, and sensitive data before contributing. Parameterize environment-specific values where possible.
 
+Full contribution guidelines can be found in our [Contribution Guide](https://rh-aiservices-bu.github.io/rhoai-dashboards-as-code/modules/main/contributing.html)
+
 ## Support
 
-Dashboards and applications in this repository are community contributions, not Red Hat supported product content. Validate compatibility, queries, application behavior, and data access controls before deployment. Installation requirements and lifecycle behavior are specific to each contribution and must be documented in its README.
+Dashboards and applications in this repository are community contributions, not Red Hat supported product content. Validate compatibility, queries, application behavior, and data access controls before deployment. 
+
+If you notice any problems, please raise an issue!
 

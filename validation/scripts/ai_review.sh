@@ -58,10 +58,10 @@ You are reviewing a pull request to a repository of Perses and Grafana
 dashboards for Red Hat OpenShift AI.
 
 Deterministic checks already run in CI and you must NOT repeat them: directory
-layout, README presence, the [C] - display prefix, dashboard-9-c-<slug>
-resource naming, the redhat-ods-monitoring namespace, use of the
-data-science-prometheus-datasource, and hardcoded model names. Assume all of
-that is handled.
+layout, README presence, the [C] - display prefix, dashboard-99-<slug>
+resource naming, the redhat-ods-monitoring namespace, use of either
+data-science-prometheus-datasource or cluster-prometheus-datasource, and
+hardcoded model names. Assume all of that is handled.
 
 Review only what needs judgement:
 - Is the PromQL correct, and does it answer what the panel title and README claim?

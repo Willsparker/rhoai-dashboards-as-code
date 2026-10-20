@@ -17,9 +17,9 @@ set -uo pipefail
 
 DASHBOARDS_DIR="${1:-dashboards}"
 
-# The datasource shipped by the RHOAI Monitoring Stack. Dashboards here must use
-# it; anything else is not portable to another cluster.
-OOTB_DATASOURCE="data-science-prometheus-datasource"
+# The datasources shipped by the RHOAI Monitoring Stack. Dashboards here must
+# use one of these; anything else is not portable to another cluster.
+OOTB_DATASOURCES=("data-science-prometheus-datasource" "cluster-prometheus-datasource")
 MONITORING_NS="redhat-ods-monitoring"
 CURRENT_API="perses.dev/v1alpha2"
 LEGACY_API="perses.dev/v1alpha1"
@@ -102,10 +102,13 @@ check_perses_file() {
     if [ "${ds_count:-0}" -eq 0 ]; then
       warn "$f" "no datasource reference found; panels will not resolve data"
     else
+      local allowed_list
+      allowed_list=$(printf '"%s",' "${OOTB_DATASOURCES[@]}")
+      allowed_list="[${allowed_list%,}]"
       while IFS= read -r bad_ds; do
         [ -z "$bad_ds" ] && continue
-        err "$f" "datasource.name is '$bad_ds'; must be '$OOTB_DATASOURCE'"
-      done < <(yq e "select(di == $i) | ${cfg} | .. | select(has(\"datasource\")) | .datasource | select(has(\"name\")) | .name | select(. != \"$OOTB_DATASOURCE\")" "$f" 2>/dev/null)
+        err "$f" "datasource.name is '$bad_ds'; must be one of: ${OOTB_DATASOURCES[*]}"
+      done < <(yq e "select(di == $i) | ${cfg} | .. | select(has(\"datasource\")) | .datasource | select(has(\"name\")) | .name | select(. != null) | select(. as \$n | ${allowed_list} | contains([\$n]) | not)" "$f" 2>/dev/null)
     fi
 
     # Hardcoded model names in queries: pins the dashboard to one cluster.

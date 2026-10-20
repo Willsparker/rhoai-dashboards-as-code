@@ -43,7 +43,7 @@ The xref:repository-structure.adoc#_the_dashboard_directory_contract[directory c
 
 . *Parameterize the models.* A query hardcoded to `model_name="granite-3-8b"` is useful on exactly one cluster. Use a `ListVariable`; xref:deploy-perses.adoc#_a_minimal_dashboard[the minimal dashboard] shows the pattern.
 
-. *Follow the naming conventions.* `[C] -` on the display name, `dashboard-9-c-<slug>` on the resource name, `-admin` only if the dashboard is genuinely cluster-wide. See xref:custom-dashboards.adoc#_naming_and_ordering[naming and ordering].
+. *Follow the naming conventions.* `[C] -` on the display name, `dashboard-99-<slug>` on the resource name, `-admin` only if the dashboard is genuinely cluster-wide. See xref:custom-dashboards.adoc#_naming_and_ordering[naming and ordering].
 
 . *Deploy it on a real cluster.* Apply it, open it in the console, and confirm every panel has data. A dashboard that has only been linted has not been tested.
 

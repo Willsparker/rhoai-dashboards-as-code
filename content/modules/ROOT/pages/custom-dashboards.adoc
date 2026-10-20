@@ -55,15 +55,15 @@ dashboard-3-llm-d-utilization-admin
 dashboard-4-llm-d-performance-admin
 ----
 
-So a custom dashboard named `dashboard-9-c-<slug>` sorts after all of them:
+So a custom dashboard named `dashboard-99-<slug>` sorts after all of them:
 
 [source,yaml]
 ----
 metadata:
-  name: dashboard-9-c-vllm-performance-monitoring
+  name: dashboard-99-vllm-performance-monitoring
 ----
 
-IMPORTANT: Use the `9` prefix rather than anything that sorts earlier. A custom dashboard that lands ahead of `dashboard-1-model-admin` makes a community contribution look like product content to someone who has never seen this repository. Reordering is possible, but the built-in dashboards keep their positions.
+IMPORTANT: Use the `99` prefix rather than anything that sorts earlier. A custom dashboard that lands ahead of `dashboard-1-model-admin` makes a community contribution look like product content to someone who has never seen this repository. Reordering is possible, but the built-in dashboards keep their positions.
 
 === The `-admin` suffix restricts visibility
 
@@ -75,7 +75,7 @@ This is a console-level filter, not RBAC. It controls which tab a user sees; it 
 ----
 metadata:
   # cluster-wide view, administrators only
-  name: dashboard-9-c-gpu-utilization-admin
+  name: dashboard-99-gpu-utilization-admin
 ----
 
 == Perses and Grafana are not interchangeable

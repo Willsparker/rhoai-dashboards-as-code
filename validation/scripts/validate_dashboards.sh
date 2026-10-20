@@ -74,8 +74,8 @@ check_perses_file() {
     fi
 
     name=$(yq e "select(di == $i) | .metadata.name // \"\"" "$f")
-    if ! printf '%s' "$name" | grep -Eq '^dashboard-9-c-[a-z0-9]+(-[a-z0-9]+)*(-admin)?$'; then
-      err "$f" "metadata.name '$name' does not match dashboard-9-c-<slug>[-admin]; ordering is alphabetical so the prefix controls placement"
+    if ! printf '%s' "$name" | grep -Eq '^dashboard-99-[a-z0-9]+(-[a-z0-9]+)*(-admin)?$'; then
+      err "$f" "metadata.name '$name' does not match dashboard-99-<slug>[-admin]; ordering is alphabetical so the prefix controls placement"
     fi
 
     ns=$(yq e "select(di == $i) | .metadata.namespace // \"\"" "$f")

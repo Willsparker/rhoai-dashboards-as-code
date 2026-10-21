@@ -2,7 +2,7 @@
 
 A Perses dashboard is a `PersesDashboard` resource. Deploying one is `oc apply`. Almost everything that goes wrong goes wrong before that: in the namespace you picked, or in the datasource the dashboard references.
 
-== Verify the Monitoring Stack
+== Manual Verification of the Monitoring Stack
 
 The {rhoai-short} operator owns the Perses lifecycle. It creates the Perses server, its datasources, and the built-in dashboards on every reconcile. Your job is to confirm it has done so, not to deploy any of it yourself.
 
@@ -45,6 +45,57 @@ persesdatasource.perses.dev/data-science-prometheus-datasource   5d
 
 If the datasource is missing, stop. A dashboard referencing a datasource that does not exist applies cleanly and then renders every panel empty, which is a considerably more confusing failure than an apply error.
 
+== Automated Verification of the Monitoring Stack
+
+A script has been provided that will verify your environment, before you apply any Perses dashboards. This does all of the steps explained above, but automatically!
+
+[source,bash]
+----
+./validation/scripts/validate_monitoring.sh
+----
+
+[source,text]
+----
+[STEP] Phase 1: Prerequisites
+[INFO] Connected to: https://api.<CLUSTER_DOMAIN>
+[STEP] Phase 2: DataScienceClusterInitialization (DSCI)
+[PASS] DSCI 'default-dsci' exists
+[PASS] DSCI status.phase=Ready
+[PASS] DSCI spec.monitoring.managementState=Managed
+[PASS] DSCI spec.monitoring.namespace=redhat-ods-monitoring
+[STEP] Phase 3: DataScienceCluster (DSC)
+[PASS] DSC 'default-dsc' exists
+[PASS] DSC ComponentsReady=True
+[STEP] Phase 4: Monitoring namespace and pods (namespace: redhat-ods-monitoring)
+[PASS] Namespace 'redhat-ods-monitoring' exists
+[PASS] AlertManager pods running (2)
+[PASS] Prometheus pods running (1)
+[PASS] OpenTelemetry Collector pods running (2)
+[PASS] Tempo pods running (1)
+[PASS] Thanos Querier pods running (1)
+[STEP] Phase 5: Child objects
+[PASS] Cluster Observability Operator CSV Succeeded (namespace: openshift-cluster-observability-operator)
+[PASS] MonitoringStack 'data-science-monitoringstack' Available=True
+[PASS] TempoMonolithic 'data-science-tempomonolithic' Ready=True
+[PASS] OpenTelemetryCollector 'data-science-collector' Ready=True
+[STEP] Phase 6: PersesDatasource CRs
+[PASS] Perses server 'data-science-perses' exists
+[PASS] PersesDatasource 'cluster-prometheus-datasource' exists
+[PASS] PersesDatasource 'cluster-prometheus-datasource' Available=True
+[PASS] PersesDatasource 'cluster-prometheus-datasource' Degraded=False
+[PASS] PersesDatasource 'data-science-prometheus-datasource' exists
+[PASS] PersesDatasource 'data-science-prometheus-datasource' Available=True
+[PASS] PersesDatasource 'data-science-prometheus-datasource' Degraded=False
+
+=========================================
+Monitoring Stack Validation Summary
+=========================================
+Passed: 23
+Failed: 0
+Status: ALL CHECKS PASSED
+=========================================
+----
+
 == Namespace is not optional
 
 Perses treats a namespace as a project, and a `PersesDatasource` is project-scoped. A dashboard can only resolve a datasource in its own namespace.
@@ -54,7 +105,7 @@ IMPORTANT: Deploy custom dashboards into `{monitoring-ns}`, the namespace that h
 [source,yaml]
 ----
 metadata:
-  name: dashboard-9-c-vllm-requests
+  name: dashboard-99-vllm-requests
   namespace: redhat-ods-monitoring   # where the datasource lives
 ----
 
@@ -67,7 +118,7 @@ Enough to be deployable, and nothing that is not required. It uses a variable fo
 apiVersion: perses.dev/v1alpha2
 kind: PersesDashboard
 metadata:
-  name: dashboard-9-c-vllm-requests
+  name: dashboard-99-vllm-requests
   namespace: redhat-ods-monitoring
 spec:
   config:
@@ -201,8 +252,8 @@ A healthy reconcile looks like this:
 
 [source,text]
 ----
-info Reconciling PersesDashboard: redhat-ods-monitoring/dashboard-9-c-vllm-requests
-info Dashboard updated: dashboard-9-c-vllm-requests
+info Reconciling PersesDashboard: redhat-ods-monitoring/dashboard-99-vllm-requests
+info Dashboard updated: dashboard-99-vllm-requests
 ----
 
 Then open *Observe* -> *Observability* in the {rhoai-short} console. The dashboard appears as a tab, after the built-in ones, with the `[C] -` prefix on its title.

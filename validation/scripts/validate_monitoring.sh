@@ -120,7 +120,7 @@ else
     # grep -c already outputs "0" on no match; || true swallows the non-zero exit.
     running_pods() {
         oc get pods -n "$MONITORING_NS" -l "$1" --no-headers 2>/dev/null \
-            | grep -c "Running" || true
+            | awk '{split($2,a,"/"); if (a[1]==a[2] && a[2]!="") c++} END {print c+0}'
     }
 
     # Alertmanager

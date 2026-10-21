@@ -52,7 +52,10 @@ A script has been provided that will verify your environment, before you apply a
 [source,bash]
 ----
 ./validation/scripts/validate_monitoring.sh
+----
 
+[source,text]
+----
 [STEP] Phase 1: Prerequisites
 [INFO] Connected to: https://api.<CLUSTER_DOMAIN>
 [STEP] Phase 2: DataScienceClusterInitialization (DSCI)
@@ -249,8 +252,8 @@ A healthy reconcile looks like this:
 
 [source,text]
 ----
-info Reconciling PersesDashboard: redhat-ods-monitoring/dashboard-9-c-vllm-requests
-info Dashboard updated: dashboard-9-c-vllm-requests
+info Reconciling PersesDashboard: redhat-ods-monitoring/dashboard-99-vllm-requests
+info Dashboard updated: dashboard-99-vllm-requests
 ----
 
 Then open *Observe* -> *Observability* in the {rhoai-short} console. The dashboard appears as a tab, after the built-in ones, with the `[C] -` prefix on its title.
